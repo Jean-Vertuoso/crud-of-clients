@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.devsuperior</groupId>
-    <artifactId>crud-of-costumers</artifactId>
+    <artifactId>crud-of-clients</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>crud-of-costumers</name>
+    <name>crud-of-clients</name>
     <description>Atividade de avaliação - CRUD de clientes</description>
     <url/>
     <licenses>
