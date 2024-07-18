@@ -11,12 +11,12 @@ public class ClientDTO {
  
     private Long id;
     
-    @NotBlank(message = "Campo requerido")
+    @NotBlank(message = "Campo name não pode ser vazio")
     private String name;
     private String cpf;
     private Double income;
     
-    @PastOrPresent(message = "Data inválida")
+    @PastOrPresent(message = "Campo birthDate não pode ser data futura")
     private LocalDate birthDate;
     private Integer children;
 

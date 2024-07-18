@@ -3,14 +3,17 @@ package com.devsuperior.crud_of_costumers.services;
 import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.crud_of_costumers.dto.ClientDTO;
 import com.devsuperior.crud_of_costumers.entities.Client;
 import com.devsuperior.crud_of_costumers.repositories.ClientRepository;
+import com.devsuperior.crud_of_costumers.services.exceptions.DatabaseException;
 import com.devsuperior.crud_of_costumers.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -48,7 +51,19 @@ public class ClientService {
             entity = repository.save(entity);
             return new ClientDTO(entity);            
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("ID "+ id +" não foi encontrado.");
+            throw new ResourceNotFoundException("ID "+ id +" não foi encontrado. Não será possível atualizar.");
+        }
+    }
+    
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id){
+        if(!repository.existsById(id)){
+            throw new ResourceNotFoundException("ID "+ id +" não foi encontrado. Não será possível excluir.");
+        }
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Falha de integridade referencial.");
         }
     }
 
